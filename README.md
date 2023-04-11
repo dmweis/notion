@@ -1,6 +1,7 @@
 # notion
+
 [![Build](https://github.com/jakeswenson/notion/actions/workflows/build.yml/badge.svg)](https://github.com/jakeswenson/notion/actions/workflows/build.yml)
-[![Crates.io](https://img.shields.io/crates/v/notion?style=for-the-badge)](https://crates.io/crates/notion)
+[![Crates.io](https://img.shields.io/crates/v/notion.svg)](https://crates.io/crates/notion)
 
 Notion API client library for rust.
 
@@ -9,7 +10,7 @@ However, if you're really eager see the example todo cli application provided in
 
 ## Docs
 
-The generated documentation site is available here: https://docs.rs/notion/
+The generated documentation site is available here: <https://docs.rs/notion/>
 
 ## Building
 

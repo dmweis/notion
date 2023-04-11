@@ -1,3 +1,5 @@
+#![doc = include_str!("../README.md")]
+
 use crate::ids::{BlockId, DatabaseId};
 use crate::models::error::ErrorResponse;
 use crate::models::search::{DatabaseQuery, SearchRequest};
