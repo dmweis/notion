@@ -68,7 +68,7 @@ pub struct Text {
     pub link: Option<Link>,
 }
 
-/// See https://developers.notion.com/reference/rich-text#mention-objects
+/// See <https://developers.notion.com/reference/rich-text#mention-objects>
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
 #[serde(tag = "type")]
 #[serde(rename_all = "snake_case")]
