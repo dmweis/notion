@@ -216,6 +216,9 @@ pub enum PropertyConfiguration {
     LastEditedTime { id: PropertyId },
     /// See <https://developers.notion.com/reference/database#last-edited-by-configuration>
     LastEditBy { id: PropertyId },
+    /// This is a new property type that is not yet documented.
+    /// See <https://www.notion.so/help/wikis-and-verified-pages>
+    Verification { id: PropertyId },
 }
 
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
@@ -369,6 +372,12 @@ pub enum PropertyValue {
     LastEditedBy {
         id: PropertyId,
         last_edited_by: User,
+    },
+    /// This is a new property type that is not yet documented.
+    /// See <https://www.notion.so/help/wikis-and-verified-pages>
+    Verification {
+        id: PropertyId,
+        // there are other fields, but they are not documented
     },
 }
 
