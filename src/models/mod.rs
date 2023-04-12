@@ -36,8 +36,10 @@ pub struct Database {
     /// Unique identifier for the database.
     pub id: DatabaseId,
     /// Date and time when this database was created.
+    #[serde(default)]
     pub created_time: DateTime<Utc>,
     /// Date and time when this database was updated.
+    #[serde(default)]
     pub last_edited_time: DateTime<Utc>,
     /// Name of the database as it appears in Notion.
     pub title: Vec<RichText>,
@@ -150,7 +152,7 @@ impl ListResponse<Object> {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone, Default)]
 #[serde(tag = "type")]
 #[serde(rename_all = "snake_case")]
 pub enum Parent {
@@ -162,10 +164,11 @@ pub enum Parent {
     Page {
         page_id: PageId,
     },
+    #[default]
     Workspace,
 }
 
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone, Default)]
 pub struct Properties {
     #[serde(flatten)]
     pub properties: HashMap<String, PropertyValue>,
@@ -208,12 +211,17 @@ pub struct PageUpdateRequest {
 pub struct Page {
     pub id: PageId,
     /// Date and time when this page was created.
+    #[serde(default)]
     pub created_time: DateTime<Utc>,
     /// Date and time when this page was updated.
+    #[serde(default)]
     pub last_edited_time: DateTime<Utc>,
     /// The archived status of the page.
+    #[serde(default)]
     pub archived: bool,
+    #[serde(default)]
     pub properties: Properties,
+    #[serde(default)]
     pub parent: Parent,
 }
 

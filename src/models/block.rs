@@ -10,7 +10,9 @@ mod tests;
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct BlockCommon {
     pub id: BlockId,
+    #[serde(default)]
     pub created_time: DateTime<Utc>,
+    #[serde(default)]
     pub last_edited_time: DateTime<Utc>,
     pub has_children: bool,
     pub created_by: UserCommon,
