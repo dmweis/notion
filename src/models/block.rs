@@ -5,8 +5,6 @@ use crate::ids::{AsIdentifier, BlockId, DatabaseId, PageId};
 use crate::models::text::{RichText, TextColor};
 use crate::models::users::UserCommon;
 
-mod tests;
-
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct BlockCommon {
     pub id: BlockId,
@@ -192,6 +190,20 @@ pub struct CodeFields {
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct Equation {
     pub expression: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct Divider {
+    // object intentionally left blank
+    // this is so that it serializes to what notion expects
+    // https://developers.notion.com/reference/block#bookmark
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct Breadcrumb {
+    // object intentionally left blank
+    // this is so that it serializes to what notion expects
+    // https://developers.notion.com/reference/block#breadcrumb
 }
 
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
@@ -498,11 +510,15 @@ impl Into<CreateBlock> for Block {
             Block::Pdf { pdf, .. } => CreateBlock::Pdf { pdf },
             Block::Bookmark { bookmark, .. } => CreateBlock::Bookmark { bookmark },
             Block::Equation { equation, .. } => CreateBlock::Equation { equation },
-            Block::Divider { .. } => CreateBlock::Divider {},
+            Block::Divider { .. } => CreateBlock::Divider {
+                divider: Divider {},
+            },
             Block::TableOfContents {
                 table_of_contents, ..
             } => CreateBlock::TableOfContents { table_of_contents },
-            Block::Breadcrumb { .. } => CreateBlock::Breadcrumb {},
+            Block::Breadcrumb { .. } => CreateBlock::Breadcrumb {
+                breadcrumb: Breadcrumb {},
+            },
             Block::ColumnList { column_list, .. } => CreateBlock::ColumnList { column_list },
             Block::Column { column, .. } => CreateBlock::Column { column },
 
@@ -586,11 +602,15 @@ pub enum CreateBlock {
     Equation {
         equation: Equation,
     },
-    Divider,
+    Divider {
+        divider: Divider,
+    },
     TableOfContents {
         table_of_contents: TableOfContents,
     },
-    Breadcrumb,
+    Breadcrumb {
+        breadcrumb: Breadcrumb,
+    },
     ColumnList {
         column_list: ColumnListFields,
     },
@@ -618,4 +638,37 @@ pub enum CreateBlock {
     Unsupported,
     #[serde(other)]
     Unknown,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn serialize_divider_create_block() {
+        let create_block = CreateBlock::Divider {
+            divider: Divider {},
+        };
+        let serialized = serde_json::to_string_pretty(&create_block).unwrap();
+        // https://developers.notion.com/reference/block#divider
+        let expected = "{
+  \"type\": \"divider\",
+  \"divider\": {}
+}";
+        assert_eq!(serialized, expected);
+    }
+
+    #[test]
+    fn serialize_breadcrumb_create_block() {
+        let create_block = CreateBlock::Breadcrumb {
+            breadcrumb: Breadcrumb {},
+        };
+        let serialized = serde_json::to_string_pretty(&create_block).unwrap();
+        // https://developers.notion.com/reference/block#breadcrumb
+        let expected = "{
+  \"type\": \"breadcrumb\",
+  \"breadcrumb\": {}
+}";
+        assert_eq!(serialized, expected);
+    }
 }
